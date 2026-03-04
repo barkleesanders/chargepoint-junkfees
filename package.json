@@ -8,7 +8,7 @@
     "deploy": "vite build && echo '{\"version\":1,\"include\":[\"/api/*\"],\"exclude\":[]}' > dist/_routes.json && wrangler pages deploy dist --project-name chargepoint-junkfees"
   },
   "dependencies": {
-    "hono": "^4.7.0"
+    "hono": "^4.12.5"
   },
   "devDependencies": {
     "@hono/vite-cloudflare-pages": "^0.4.3",
