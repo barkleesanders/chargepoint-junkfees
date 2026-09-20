@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChargePoint Junk Fee Scanner</title>
+<title>EV Charging Fee Audit Tool</title>
+<meta name="description" content="Independent consumer tool to audit your EV charging account for hidden fees, idle charges, and session surcharges.">
+<meta name="robots" content="index, follow">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--green:#37A25B;--dark:#111827;--gray:#6b7280;--light:#f9fafb;--red:#dc2626;--yellow:#fef3c7;--card:#fff;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06)}
@@ -105,16 +107,18 @@ footer{text-align:center;padding:30px;color:var(--gray);font-size:.85rem}
 <body>
 
 <div class="hero">
-  <h1>Did ChargePoint <span>overcharge</span> you?</h1>
-  <p>Scan your account for hidden fees, idle charges, and session surcharges. Your data never leaves your browser.</p>
+  <h1>EV Charging <span>Fee Audit</span></h1>
+  <p>Independent consumer tool to scan your EV charging account for hidden fees, idle charges, and session surcharges.</p>
+  <p style="font-size:.8rem;color:#64748b;margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto">This is an independent consumer advocacy tool. It is not affiliated with, endorsed by, or connected to any EV charging provider. All trademarks belong to their respective owners. Built under principles of fair use for consumer transparency.</p>
 </div>
 
 <div class="container">
 
   <div class="card">
-    <h2><span class="num">1</span> Get your ChargePoint session token</h2>
+    <h2><span class="num">1</span> Get your session token from your EV charging account</h2>
+    <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">Currently supports accounts at <strong>driver.chargepoint.com</strong>. Your token stays on your device and is never stored.</p>
     <div class="steps">
-      <div class="step">Log in to <a href="https://driver.chargepoint.com" target="_blank" rel="noopener">driver.chargepoint.com</a></div>
+      <div class="step">Log in to your account at <a href="https://driver.chargepoint.com" target="_blank" rel="noopener">driver.chargepoint.com</a></div>
       <div class="step">Open Developer Tools: press <code>F12</code> (Windows) or <code>Cmd+Option+I</code> (Mac)</div>
       <div class="step">Click the <strong>Application</strong> tab, then <strong>Cookies</strong> &rarr; <code>https://driver.chargepoint.com</code></div>
       <div class="step">Find <code>auth-session</code>, double-click its <strong>Value</strong>, and copy it (<code>Ctrl+C</code> / <code>Cmd+C</code>)</div>
@@ -181,18 +185,26 @@ footer{text-align:center;padding:30px;color:var(--gray);font-size:.85rem}
   <div class="privacy">
     <h3>Privacy &amp; Security</h3>
     <ul>
-      <li>Your token is sent only to our Cloudflare edge proxy, which forwards it to ChargePoint's API.</li>
-      <li>Nothing is stored, logged, or persisted. All processing happens in memory.</li>
+      <li>Your token is sent only to our Cloudflare edge proxy, which forwards it to the charging provider's API. It is never stored, logged, or persisted.</li>
       <li>The auth token expires in ~2 hours. After scanning, it has no further value.</li>
-      <li>Analysis runs entirely in your browser. The server only proxies API requests.</li>
-      <li>This tool is open source. <a href="https://github.com/barkleesanders/chargepoint-junkfees" target="_blank">View the code</a>.</li>
+      <li>All fee analysis runs entirely in your browser. The server only proxies API requests to avoid CORS restrictions.</li>
+      <li>This tool is open source. <a href="https://github.com/barkleesanders/ev-fee-audit" target="_blank">View the code on GitHub</a>.</li>
     </ul>
   </div>
 
 </div>
 
+<div class="container">
+  <div class="card" style="background:#fffbeb;border:1px solid #fde68a;font-size:.85rem;color:#78350f">
+    <h3 style="margin-bottom:8px;font-size:.95rem">Legal Notice &amp; Consumer Rights</h3>
+    <p>This is an <strong>independent consumer advocacy tool</strong> created to help EV drivers audit their own billing data for transparency. It is not affiliated with, endorsed by, or connected to any EV charging network or company.</p>
+    <p style="margin-top:8px">All trademarks, service marks, and company names mentioned on this page are the property of their respective owners and are used solely for purposes of identification in connection with consumer commentary and criticism, which constitutes nominative fair use under U.S. trademark law (<em>New Kids on the Block v. News Am. Publ'g, Inc.</em>, 971 F.2d 302 (9th Cir. 1992)).</p>
+    <p style="margin-top:8px">This tool accesses only <strong>your own account data</strong> using credentials <strong>you provide</strong>. No credentials are stored, shared, or logged. The tool exercises the same access you have when logging into your own account dashboard.</p>
+    <p style="margin-top:8px">Questions or concerns? Contact: <a href="mailto:barkleesanders@gmail.com" style="color:#78350f;text-decoration:underline">barkleesanders@gmail.com</a></p>
+  </div>
+</div>
 <footer>
-  Built for transparency. Not affiliated with ChargePoint.
+  Built for consumer transparency. An independent, open-source project. Not affiliated with any EV charging provider.
 </footer>
 
 <script>
@@ -251,7 +263,7 @@ async function startScan() {
   try {
     const payload = JSON.parse(atob(parts[1]));
     if (payload.exp && payload.exp * 1000 < Date.now()) {
-      errEl.textContent = 'This token has expired. Please log in to ChargePoint again and copy a fresh token.';
+      errEl.textContent = 'This token has expired. Please log in to your account again and copy a fresh token.';
       errEl.style.display = 'block';
       return;
     }
@@ -548,7 +560,7 @@ function downloadCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'chargepoint_junkfee_audit.csv';
+  a.download = 'ev_charging_fee_audit.csv';
   a.click();
   URL.revokeObjectURL(url);
 }
