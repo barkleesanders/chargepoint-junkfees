@@ -8,13 +8,13 @@
     "deploy": "vite build && echo '{\"version\":1,\"include\":[\"/api/*\"],\"exclude\":[]}' > dist/_routes.json && wrangler pages deploy dist --project-name ev-fee-audit"
   },
   "dependencies": {
-    "hono": "^4.7.0"
+    "hono": "^4.13.19"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260918.1",
     "@hono/vite-cloudflare-pages": "^0.4.3",
     "@hono/vite-dev-server": "^0.25.0",
-    "vite": "^6.0.0",
-    "wrangler": "^4.0.0"
+    "vite": "^6.4.5",
+    "wrangler": "^4.165.0"
   }
 }
